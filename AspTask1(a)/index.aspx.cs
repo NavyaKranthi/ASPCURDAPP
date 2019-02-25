@@ -12,6 +12,7 @@ namespace AspTask1_a_
 {
     public partial class index : System.Web.UI.Page
     {
+       
         DataTable dt = new DataTable();
         DataAccessLayer.DataAccessLayer dal = new DataAccessLayer.DataAccessLayer();       
         protected void Page_Load(object sender, EventArgs e)
@@ -38,6 +39,12 @@ namespace AspTask1_a_
             btnUpdate.Text = "Save";
             btnDelete.Enabled = false;
         }
+        protected void btnview_Click(object sender, EventArgs e)
+        {
+
+            Contact.DataSource = dal.fillGridView();
+            Contact.DataBind();
+        }
         protected void btnInsert_Click(object sender, EventArgs e)
         {
             string msg = dal.insert(txtID.Text, txtName.Text, txtMobile.Text, txtAddress.Text);
@@ -50,6 +57,7 @@ namespace AspTask1_a_
                 Label5.Text = "error";
             }
             Clear();
+            dal.fillGridView();
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)
@@ -70,11 +78,12 @@ namespace AspTask1_a_
 
         protected void lnk_OnClick(object sender, EventArgs e)
         {
-            dal.view("e");
-            txtID.Text = dt.Rows[0]["Contact"].ToString();
+            int ContactID = Convert.ToInt32((sender as LinkButton).CommandArgument);
+            dt = dal.view(ContactID.ToString());
+            txtID.Text = dt.Rows[0]["ContactID"].ToString();
             txtName.Text = dt.Rows[0]["Name"].ToString();
-            txtMobile.Text = dt.Rows[0]["Mobile"].ToString();
-            txtAddress.Text = dt.Rows[0]["Address"].ToString();
+            txtMobile.Text = dt.Rows[0]["Mobile"].ToString().Trim();
+            txtAddress.Text = dt.Rows[0]["Address"].ToString().Trim();
             btnUpdate.Text = "Update";
             btnDelete.Enabled = true;
         }
@@ -85,13 +94,6 @@ namespace AspTask1_a_
             Clear();
         }
 
-       
-
-        protected void btnview_Click(object sender, EventArgs e)
-        {
-
-            Contact.DataSource = dal.fillGridView();
-            Contact.DataBind();
-        }
+      
     }
 }

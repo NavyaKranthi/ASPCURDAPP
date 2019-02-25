@@ -23,8 +23,8 @@ namespace AspTask1_a_.DataAccessLayer
             cmd.Parameters.AddWithValue("@Mobile", txtMobile);
             cmd.Parameters.AddWithValue("@Address", txtAddress);
             cmd.ExecuteNonQuery();
-            return null;
             conn.Close();
+            return null;
         }
 
         public string update(string txtID, string txtName, string txtMobile, string txtAddress)
@@ -38,8 +38,8 @@ namespace AspTask1_a_.DataAccessLayer
             cmd.Parameters.AddWithValue("@Mobile", txtMobile);
             cmd.Parameters.AddWithValue("@Address", txtAddress);
             cmd.ExecuteNonQuery();
-            return null;
             conn.Close();
+            return null;
         }
 
         public DataTable fillGridView()
@@ -50,12 +50,9 @@ namespace AspTask1_a_.DataAccessLayer
             cmd.CommandType = CommandType.StoredProcedure;
             DataTable dt = new DataTable();
             dt.Load(cmd.ExecuteReader());
-            return dt;
             conn.Close();
+            return dt;
         }
-
-        
-       
 
         public string delete(string ContactID)
         {
@@ -63,27 +60,23 @@ namespace AspTask1_a_.DataAccessLayer
                 conn.Open();
             SqlCommand cmd = new SqlCommand("ContactDeleteByID", conn);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ContactID",ContactID);
+            cmd.Parameters.AddWithValue("@ContactID", ContactID);
             cmd.ExecuteNonQuery();
-            return null;
             conn.Close();
+            return null;
         }
 
-        public void view(string ContactID)
+        public DataTable view(string txtID)
         {
             if (conn.State == ConnectionState.Closed)
                 conn.Open();
             SqlCommand cmd = new SqlCommand("ContactViewByID", conn);
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ContactID", ContactID);
+            cmd.Parameters.AddWithValue("@ContactID", txtID);
             DataTable dt = new DataTable();
             dt.Load(cmd.ExecuteReader());
             conn.Close();
+            return dt;
         }
-        
-
-        
-     
-
     }
 }
